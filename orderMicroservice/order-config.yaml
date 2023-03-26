@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/order_microservice
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: password
+  KAFKA_BOOTSTRAP_SERVERS: localhost:9092

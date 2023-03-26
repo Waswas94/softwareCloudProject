@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: inventory-service:1.0
+          ports:
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: order-config
+          volumeMounts:
+            - mountPath: /app/data
+              name: order-data
+      volumes:
+        - name: order-data
+          persistentVolumeClaim:
+            claimName: order-pvc

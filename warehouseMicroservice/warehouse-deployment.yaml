@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouse-service
+  template:
+    metadata:
+      labels:
+        app: warehouse-service
+    spec:
+      containers:
+        - name: warehouse-service
+          image: warehouse-service:1.0
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: warehouse-config
+          volumeMounts:
+            - mountPath: /app/data
+              name: warehouse-data
+      volumes:
+        - name: warehouse-data
+          persistentVolumeClaim:
+            claimName: warehouse-pvc
